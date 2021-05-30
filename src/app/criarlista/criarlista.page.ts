@@ -60,5 +60,9 @@ export class CriarlistaPage implements OnInit {
   excludeItem(i) {
     this.lista.splice(i, 1);
   }
+  //TO:DO enviar para API
+  submitList() {
+    console.log(this.lista);
+  }
 
 }

@@ -61,5 +61,11 @@
         </ion-button>
       </ion-item>
     </ion-list>
+    <div class="footer">
+      <ion-button type="submit" color="primary" expand="block" *ngIf="lista.length > 0" (click)="submitList()">
+        <ion-spinner *ngIf="isLoading" class="spin" name="crescent" color="light"></ion-spinner>
+        Salvar
+      </ion-button>
+    </div>
   </ion-card>
 </ion-content>
