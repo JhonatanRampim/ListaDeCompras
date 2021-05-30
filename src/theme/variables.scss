@@ -67,6 +67,10 @@
   --ion-color-light-tint: #f5f6f9;
 
   --ion-font-family: 'Open Sans';
+  ion-content {
+    --background: #E8E8E8;
+  }
+ 
 }
 
 // @media (prefers-color-scheme: dark) {
