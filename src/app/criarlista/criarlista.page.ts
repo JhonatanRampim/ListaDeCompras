@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { Item } from '../models/lista.model';
 
 
 @Component({
@@ -15,28 +16,27 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['./criarlista.page.scss'],
 })
 export class CriarlistaPage implements OnInit {
-  loginForm: FormGroup;
+  itemForm: FormGroup;
   userInfo: any = [];
   route: Router;
   isLoading: boolean = false;
-  passwordType: string = 'password';
-  passwordIcon: string = 'eye-off';
+  lista: Array<Item> = [];
   constructor(
     private menuCtrl: MenuController,
     public formBuilder: FormBuilder,
     private router: Router,
   ) {
-    this.menuCtrl.enable(false);
+
   }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      user: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+    this.itemForm = this.formBuilder.group({
+      nome: ['', [Validators.required]],
+      quantidade: ['', [Validators.required]],
     });
   }
   get f() {
-    return this.loginForm.controls;
+    return this.itemForm.controls;
   }
 
   keyDownFunction(event) {
@@ -47,19 +47,18 @@ export class CriarlistaPage implements OnInit {
   }
   EnterSubmit($event) {
     if ($event.keyCode === 13) {
-      this.submitLogin();
+      this.includeItem();
     }
   }
 
-  submitLogin() {
-    this.isLoading = true;
-    if (this.loginForm.invalid) {
-      return;
-    }
-
+  includeItem() {
+    this.lista.push({
+      nomeItem: this.itemForm.controls.nome.value.toUpperCase(),
+      quantidade: this.itemForm.controls.quantidade.value
+    });
   }
-  ionViewDidLeave() {
-    this.menuCtrl.enable(true);
+  excludeItem(i) {
+    this.lista.splice(i, 1);
   }
 
 }
