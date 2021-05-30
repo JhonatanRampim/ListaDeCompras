@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent {
   public appPages = [
     { title: 'Tela Inicial', url: '/home', icon: 'home' },
+    { title: 'Criar Lista', url: '/criarlista', icon: 'add-circle' },
   ];
   constructor() {}
 
