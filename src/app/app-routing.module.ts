@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'criarlista',
-    loadChildren: () => import('./criarlista/criarlista.module').then( m => m.CriarlistaPageModule)
+    loadChildren: () => import('./views/criarlista/criarlista.module').then( m => m.CriarlistaPageModule)
   }
 ];
 

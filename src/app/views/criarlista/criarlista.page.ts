@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-import { Item } from '../models/lista.model';
+import { Item } from '../../models/lista.model';
 
 
 @Component({
