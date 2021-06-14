@@ -28,19 +28,20 @@ export class FolderPage implements OnInit {
     })
   }
 
-  async modalProtetiva(id?) {
+  async modalProtetiva(id?, nome?) {
     const modal = await this.modalController.create({
       component: ListaPage,
       cssClass: 'my-custom-modal-css',
       componentProps: {
         'id_lista': id,
+        'nome_lista': nome,
       }
     });
     return await modal.present();
   }
 
-  openList(id?) {
-    this.modalProtetiva(id);
+  openList(id?, nome?) {
+    this.modalProtetiva(id, nome);
   }
 
 }

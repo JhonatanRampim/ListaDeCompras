@@ -20,7 +20,7 @@
     </ion-item-divider>
     <ion-grid>
       <ion-row>
-        <ion-card *ngFor="let lists of myLists" (click)="openList(lists.id)" style="cursor:pointer;">
+        <ion-card *ngFor="let lists of myLists" (click)="openList(lists.id, lists.nome)" style="cursor:pointer;">
           <ion-card-header>
             <ion-card-title>{{lists.nome}}</ion-card-title>
           </ion-card-header>

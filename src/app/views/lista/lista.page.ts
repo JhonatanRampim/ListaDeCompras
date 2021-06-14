@@ -11,6 +11,7 @@ export class ListaPage implements OnInit {
   public ListsItems: Array<any>;
   public Items: any;
   @Input() id_lista: string;
+  @Input() nome_lista: string;
   constructor(public modalCtrl: ModalController, private listaService: ListasService) { }
 
   ngOnInit() {
