@@ -8,13 +8,17 @@
   <ion-list *ngFor="let item of Items">
     <ion-item>
       <ion-label>{{item.nome}}</ion-label>
-      <ion-checkbox slot="end" [(ngModel)]="item.is_checked"></ion-checkbox>
+      <ion-label>{{item.quantidade}}</ion-label>
+      <!-- <ion-checkbox slot="end" [(ngModel)]="item.is_checked"></ion-checkbox> -->
     </ion-item>
   </ion-list>
   <ion-grid style="margin-top: 20px; text-align: center;">
     <ion-row>
       <ion-col>
-        <a color="primary" style="text-decoration: none; margin-right: 10px; cursor: pointer;"><b>Abrir Visita</b></a>
+        <a color="primary" style="text-decoration: none; margin-right: 10px; cursor: pointer;"><b>Usar Lista</b></a>
+      </ion-col>
+      <ion-col>
+        <a color="warning" style="text-decoration: none; margin-right: 10px; cursor: pointer;"><b>Editar Lista</b></a>
       </ion-col>
       <ion-col>
         <a style="text-decoration: none; margin-right: 10px; cursor: pointer; color: #92949C;"
