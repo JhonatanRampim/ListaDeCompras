@@ -19,9 +19,9 @@ export class LoginService {
     return this.userSubject.value;
   }
   login(data?) {
-    return this.httpClient.post(environment.apiUrl + 'auth/login', {email:data.login, password:data.pass})
+    return this.httpClient.post<any>(environment.apiUrl + 'auth/login', {email:data.login, password:data.pass})
       .pipe(map(user => {
-        // localStorage.setItem('token', user.token);
+        localStorage.setItem('token', user.token);
         this.userSubject.next(localStorage.getItem('token'));
         return user;
       }));
