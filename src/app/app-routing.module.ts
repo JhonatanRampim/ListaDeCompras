@@ -18,6 +18,10 @@ const routes: Routes = [
   {
     path: 'lista',
     loadChildren: () => import('./views/lista/lista.module').then( m => m.ListaPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./views/login/login.module').then( m => m.LoginPageModule)
   }
 ];
 
