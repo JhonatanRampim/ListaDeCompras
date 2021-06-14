@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { ListasService } from 'src/app/services/listas.service';
 import { Item } from '../../models/lista.model';
 
 
@@ -17,14 +18,17 @@ import { Item } from '../../models/lista.model';
 })
 export class CriarlistaPage implements OnInit {
   itemForm: FormGroup;
+  listaForm: FormGroup;
   userInfo: any = [];
   route: Router;
   isLoading: boolean = false;
   lista: Array<Item> = [];
+  listas: Array<any> = [];
   constructor(
     private menuCtrl: MenuController,
     public formBuilder: FormBuilder,
     private router: Router,
+    private listaService: ListasService,
   ) {
 
   }
@@ -34,17 +38,12 @@ export class CriarlistaPage implements OnInit {
       nome: ['', [Validators.required]],
       quantidade: ['', [Validators.required]],
     });
-  }
-  get f() {
-    return this.itemForm.controls;
+    this.listaForm = this.formBuilder.group({
+      nome: ['', [Validators.required]],
+      descricao: ['']
+    })
   }
 
-  keyDownFunction(event) {
-    if (event.keyCode === 13) {
-      alert('you just pressed the enter key');
-      // rest of your code
-    }
-  }
   EnterSubmit($event) {
     if ($event.keyCode === 13) {
       this.includeItem();
@@ -62,7 +61,14 @@ export class CriarlistaPage implements OnInit {
   }
   //TO:DO enviar para API
   submitList() {
-    console.log(this.lista);
+
+    this.listas.push({
+      nome_lista: this.listaForm.controls.nome.value,
+      descricao: this.listaForm.controls.descricao.value,
+      items: this.lista
+    });
+
+    this.listaService.createList(this.listas).subscribe(data => console.log(data));
   }
 
 }
