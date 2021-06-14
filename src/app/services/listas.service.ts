@@ -19,4 +19,9 @@ export class ListasService {
     return this.httpClient.post<any>(this.apiUrl + 'lista/getMyListWithItems', { id: null, id_lista: id })
       .pipe(map(lista => lista));
   }
+
+  createList(data?) {
+    return this.httpClient.post<any>(this.apiUrl + 'lista/create', data)
+      .pipe(map(createdLista => createdLista));
+  }
 }
