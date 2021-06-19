@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertController, ModalController } from '@ionic/angular';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -17,7 +18,8 @@ export class LoginPage implements OnInit {
   route: Router;
   constructor(public formBuilder: FormBuilder,
     public loginService: LoginService,
-    private router: Router,) { }
+    private router: Router,
+    private alertController: AlertController) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -41,12 +43,24 @@ export class LoginPage implements OnInit {
     }
   }
 
+  async presentAlert(message?) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Ops! Houve um erro :(',
+      message: message,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
   async submitForm() {
-    this.isSubmitted = true;
+    this.isLoading = true;
     var login = this.loginForm.value.login;
     var pass = this.loginForm.value.pass;
-
-    this.isLoading = true;
+    if (this.loginForm.invalid) {
+      this.isLoading = false;
+      return this.presentAlert('Insira seu usuário e senha!')
+    }
     this.loginService
       .login({ login, pass })
       .subscribe(
@@ -55,9 +69,8 @@ export class LoginPage implements OnInit {
           this.router.navigate(['/home']);
         },
         (error) => {
-          console.error(error);
           this.isLoading = false;
-          this.router.navigate(['/login']);
+          this.presentAlert(error.error.data);
         }
       );
 
