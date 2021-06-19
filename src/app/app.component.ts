@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 import { UserModel } from './models/user.model';
 import { LoginService } from './services/login.service';
 @Component({
@@ -13,18 +14,22 @@ export class AppComponent implements OnInit {
     { title: 'Criar Lista', url: '/criarlista', icon: 'add-circle' },
   ];
   user: UserModel;
-  constructor(private loginService: LoginService, private router: Router) { }
+  constructor(private loginService: LoginService, private router: Router, private menuController:MenuController) { }
   ngOnInit() {
     this.loginService.user.subscribe(user => {
     if(user){
-      this.user = user 
+      this.menuController.swipeGesture(true);
+      return this.user = user 
     } 
+    this.menuController.swipeGesture(false);
     });
   }
   logout() {
     this.loginService.logout().subscribe(data => {
       if (data) {
-        this.router.navigate(['/login']);
+        this.menuController.close();
+        this.menuController.swipeGesture(false);
+        return this.router.navigate(['/login']);
       }
     });
 
