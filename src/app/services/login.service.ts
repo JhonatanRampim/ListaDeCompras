@@ -26,4 +26,12 @@ export class LoginService {
         return user;
       }));
   }
+  logout(data?) {
+    return this.httpClient.get<any>(environment.apiUrl + 'auth/logout')
+      .pipe(map(user => {
+        localStorage.removeItem('token');
+        this.userSubject.next(false);
+        return true;
+      }));
+  }
 }
