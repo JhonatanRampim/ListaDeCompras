@@ -22,7 +22,7 @@ export class LoginService {
     return this.httpClient.post<any>(environment.apiUrl + 'auth/login', {email:data.login, password:data.pass})
       .pipe(map(user => {
         localStorage.setItem('token', user.token);
-        this.userSubject.next(localStorage.getItem('token'));
+        this.userSubject.next(jwt_decode(localStorage.getItem('token')));
         return user;
       }));
   }
