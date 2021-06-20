@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController, MenuController, ModalController } from '@ionic/angular';
 import { ListasService } from 'src/app/services/listas.service';
-import { ListaPage } from '../lista/lista.page';
+import { ListaPage } from '../modals/lista/lista.page';
 
 @Component({
   selector: 'app-home',

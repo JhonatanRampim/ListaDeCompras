@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'lista',
-    loadChildren: () => import('./views/lista/lista.module').then( m => m.ListaPageModule)
+    loadChildren: () => import('./views/modals/lista/lista.module').then( m => m.ListaPageModule)
   },
   {
     path: 'login',
