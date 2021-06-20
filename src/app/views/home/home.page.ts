@@ -18,21 +18,22 @@ export class FolderPage implements OnInit {
     public modalController: ModalController,
     public loadingController: LoadingController) { }
 
-  ngOnInit() {
-    this.presentLoading()
+   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id');
     this.getLists();
   }
 
-  getLists() {
+  async getLists() {
+    await this.presentLoading()
     return this.listasService.getMyLists().subscribe(response => {
-      this.loadingController.dismiss();
       this.myLists = response.data;
+      this.loadingController.dismiss('firstLoading');
     });
   }
 
   async presentLoading() {
     const loading = await this.loadingController.create({
+      id:'firstLoading',
       cssClass: 'my-custom-class',
       message: 'Carregando...',
     });
