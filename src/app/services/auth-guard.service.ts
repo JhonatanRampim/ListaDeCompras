@@ -16,16 +16,16 @@ export class AuthGuardService {
       this.router.navigate(['/login']);
       return false;
     }
-  //   this.loginService.validateToken().subscribe((res) => {
-  //     return true
-  //   },
-  //     (error) => {
-  //       if (error) {
-  //         localStorage.removeItem('userAppPenha');
-  //         this.router.navigate(['/login']);
-  //         return false;
-  //       }
-  //     });
-  //   return true;
+    this.loginService.check().subscribe((res) => {
+      return true
+    },
+      (error) => {
+        if (error) {
+          localStorage.removeItem('token');
+          this.router.navigate(['/login']);
+          return false;
+        }
+      });
+    return true;
   }
 }

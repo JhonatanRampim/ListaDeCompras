@@ -14,12 +14,12 @@ export class LoginService {
   constructor(private httpClient: HttpClient) {
     this.userSubject = new BehaviorSubject<any>((localStorage.getItem('token')) ? jwt_decode(localStorage.getItem('token')) : null);
     this.user = this.userSubject.asObservable();
-   }
+  }
   public get userValue() {
     return this.userSubject.value;
   }
   login(data?) {
-    return this.httpClient.post<any>(environment.apiUrl + 'auth/login', {email:data.login, password:data.pass})
+    return this.httpClient.post<any>(environment.apiUrl + 'auth/login', { email: data.login, password: data.pass })
       .pipe(map(user => {
         localStorage.setItem('token', user.token);
         this.userSubject.next(jwt_decode(localStorage.getItem('token')));
@@ -33,5 +33,16 @@ export class LoginService {
         this.userSubject.next(false);
         return true;
       }));
+  }
+
+  check() {
+    return this.httpClient.get<any>(environment.apiUrl + 'auth/check')
+      .pipe(map(checkedUser => checkedUser));
+  }
+
+  signup(data?) {
+    console.log(data);
+    return this.httpClient.post<any>(environment.apiUrl + 'auth/signup', { name: data.nome, email: data.email, password: data.pass })
+      .pipe(map(signedUp => signedUp));
   }
 }
