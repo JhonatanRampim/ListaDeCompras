@@ -20,7 +20,7 @@
     </ion-item-divider>
     <ion-grid>
       <ion-row>
-        <ion-card *ngFor="let lists of myLists" (click)="openList(lists.id, lists.nome)" style="cursor:pointer;">
+        <ion-card *ngFor="let lists of myLists"  style="cursor:pointer;">
           <ion-card-header>
             <ion-card-title>{{lists.nome}}</ion-card-title>
             <ion-card-subtitle style="font-size: 10px;">Criada em: {{lists.created_at | date:'dd/MM/YYYY'}}
@@ -31,10 +31,10 @@
               {{lists.descricao}}
             </div>
             <div class="action-buttons">
-              <ion-button color="tertiary" size="small" title="Usar lista">
+              <ion-button color="tertiary" size="small" title="Usar lista" [routerLink]="['/usar-lista',lists.id]">
                 <ion-icon slot="icon-only" name="checkmark"></ion-icon>
               </ion-button>
-              <ion-button color="warning" size="small" title="Editar lista">
+              <ion-button color="warning" size="small" title="Editar lista" (click)="openList(lists.id, lists.nome)">
                 <ion-icon slot="icon-only" name="pencil"></ion-icon>
               </ion-button>
             </div>
