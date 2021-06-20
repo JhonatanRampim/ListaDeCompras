@@ -6,9 +6,9 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { ListasService } from 'src/app/services/listas.service';
-import { Item } from '../../models/lista.model';
+import { Item, Lista } from '../../models/lista.model';
 
 
 @Component({
@@ -22,13 +22,14 @@ export class CriarlistaPage implements OnInit {
   userInfo: any = [];
   route: Router;
   isLoading: boolean = false;
-  lista: Array<Item> = [];
-  listas: Array<any> = [];
+  itens: Array<Item> = [];
+  lista: Lista = {};
   constructor(
     private menuCtrl: MenuController,
     public formBuilder: FormBuilder,
     private router: Router,
     private listaService: ListasService,
+    private alertController: AlertController
   ) {
 
   }
@@ -51,24 +52,48 @@ export class CriarlistaPage implements OnInit {
   }
 
   includeItem() {
-    this.lista.push({
+    this.itens.push({
       nomeItem: this.itemForm.controls.nome.value.toUpperCase(),
       quantidade: this.itemForm.controls.quantidade.value
     });
   }
   excludeItem(i) {
-    this.lista.splice(i, 1);
+    this.itens.splice(i, 1);
   }
-  //TO:DO enviar para API
-  submitList() {
 
-    this.listas.push({
-      nome_lista: this.listaForm.controls.nome.value,
-      descricao: this.listaForm.controls.descricao.value,
-      items: this.lista
+  async presentErrorAlert(message?) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Ops! Houve um erro :(',
+      message: message,
+      buttons: ['OK']
     });
+    await alert.present();
+  }
 
-    this.listaService.createList(this.listas).subscribe(data => console.log(data));
+  async presentSuccessAlert(message?) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Eba! Lista cadastrada com sucesso!!',
+      message: 'Agora é só começar a usar!',
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  submitList() {
+    this.lista.nome = this.listaForm.controls.nome.value,
+      this.lista.descricao = this.listaForm.controls.descricao.value,
+      this.lista.itens = this.itens;
+
+    this.listaService.createList(this.lista).subscribe(data => {
+      if (!data.success) {
+        this.presentErrorAlert(data.data);
+      }
+      this.presentSuccessAlert();
+    }, (error) => {
+      this.presentErrorAlert(error.error.data)
+    });
   }
 
 }

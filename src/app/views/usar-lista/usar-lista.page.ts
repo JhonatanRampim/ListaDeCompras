@@ -10,8 +10,8 @@ import { ListasService } from 'src/app/services/listas.service';
 })
 export class UsarListaPage implements OnInit {
   listaId: number;
-  items: any;
-  listsItems: any;
+  itens: any;
+  listsItens: any;
   constructor(private router: ActivatedRoute, private listaService: ListasService, private loadingController: LoadingController) { }
 
   async ngOnInit() {
@@ -25,11 +25,10 @@ export class UsarListaPage implements OnInit {
   }
   getMyListsItems(listaId) {
     this.listaService.getMyListsItems(listaId).subscribe(response => {
-      this.listsItems = response.data[0]
+      this.listsItens = response.data[0]
       response.data.forEach(arrayItems => {
-        this.items = arrayItems.items;
+        this.itens = arrayItems.items;
       });
-      console.log(this.items);
       this.loadingController.dismiss('firstLoading');
     });
   }

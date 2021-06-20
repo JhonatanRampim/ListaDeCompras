@@ -81,7 +81,7 @@
     </ion-card-header>
 
     <ion-list>
-      <ion-item *ngFor="let item of lista; index as i">
+      <ion-item *ngFor="let item of itens; index as i">
         <ion-label>{{item.nomeItem}}</ion-label>
         <ion-label>{{item.quantidade}}</ion-label>
         <ion-button slot="end" (click)="excludeItem(i)">
@@ -90,7 +90,7 @@
       </ion-item>
     </ion-list>
     <div class="footer">
-      <ion-button type="submit" color="primary" expand="block" *ngIf="lista.length > 0" (click)="submitList()">
+      <ion-button type="submit" color="primary" expand="block" *ngIf="itens.length > 0" (click)="submitList()">
         <ion-spinner *ngIf="isLoading" class="spin" name="crescent" color="light"></ion-spinner>
         Salvar
       </ion-button>
