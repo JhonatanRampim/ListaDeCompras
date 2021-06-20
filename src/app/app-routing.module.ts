@@ -28,7 +28,7 @@ const routes: Routes = [
     loadChildren: () => import('./views/signup/signup.module').then( m => m.SignupPageModule)
   },
   {
-    path: 'usar-lista',
+    path: 'usar-lista/:id',
     loadChildren: () => import('./views/usar-lista/usar-lista.module').then( m => m.UsarListaPageModule)
   }
 ];
