@@ -1,9 +1,31 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>usar-lista</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Usar Lista</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{listsItems ? listsItems.nome:""}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngFor="let item of items">
+        <ion-item>
+          <ion-label>{{item.nome}}</ion-label>
+          <ion-checkbox slot="start"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+      <div class="footer">
+        <ion-button type="submit" color="primary" expand="block" >
+          <ion-spinner *ngIf="isLoading" class="spin" name="crescent" color="light"></ion-spinner>
+          Salvar
+        </ion-button>
+      </div>
 
+    </ion-card-content>
+  </ion-card>
 </ion-content>

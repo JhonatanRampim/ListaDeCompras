@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
+import { ListasService } from 'src/app/services/listas.service';
 
 @Component({
   selector: 'app-usar-lista',
@@ -6,10 +9,37 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./usar-lista.page.scss'],
 })
 export class UsarListaPage implements OnInit {
+  listaId: number;
+  items: any;
+  listsItems: any;
+  constructor(private router: ActivatedRoute, private listaService: ListasService, private loadingController: LoadingController) { }
 
-  constructor() { }
+  async ngOnInit() {
+    await this.presentLoading();
+    this.router.params.subscribe(routeParams => {
+      this.listaId = routeParams['id'];
+      this.getMyListsItems(this.listaId)
+      return routeParams
+    });
 
-  ngOnInit() {
+  }
+  getMyListsItems(listaId) {
+    this.listaService.getMyListsItems(listaId).subscribe(response => {
+      this.listsItems = response.data[0]
+      response.data.forEach(arrayItems => {
+        this.items = arrayItems.items;
+      });
+      console.log(this.items);
+      this.loadingController.dismiss('firstLoading');
+    });
   }
 
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      id: 'firstLoading',
+      cssClass: 'my-custom-class',
+      message: 'Carregando...',
+    });
+    await loading.present();
+  }
 }
