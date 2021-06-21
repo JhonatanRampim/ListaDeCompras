@@ -1,12 +1,12 @@
 export interface Lista {
-    id?: Number, 
+    id?: number, 
     nome?: string, 
     descricao?: string, 
     itens?: Item[]
 }
 
 export interface Item {
-    id?: Number,
+    id?: number,
     nomeItem?: String,
-    quantidade?: String,
+    quantidade?: number,
 }
