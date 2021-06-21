@@ -24,4 +24,8 @@ export class ListasService {
     return this.httpClient.post<any>(this.apiUrl + 'lista/create', data)
       .pipe(map(createdLista => createdLista));
   }
+  checkList(data?) {
+    return this.httpClient.post<any>(this.apiUrl + 'lista/checkList', {itensToCheck:data})
+      .pipe(map(createdLista => createdLista));
+  }
 }
