@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
     { title: 'Tela Inicial', url: '/home', icon: 'home' },
     { title: 'Criar Lista', url: '/criarlista', icon: 'add-circle' },
   ];
-  user: UserModel;
+  user: any;
   constructor(private loginService: LoginService, private router: Router, private menuController:MenuController) { }
   ngOnInit() {
     this.loginService.user.subscribe(user => {
