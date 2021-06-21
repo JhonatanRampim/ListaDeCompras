@@ -54,7 +54,7 @@ export class CriarlistaPage implements OnInit {
   includeItem() {
     this.itens.push({
       nomeItem: this.itemForm.controls.nome.value.toUpperCase(),
-      quantidade: this.itemForm.controls.quantidade.value
+      quantidade: parseInt(this.itemForm.controls.quantidade.value)
     });
   }
   excludeItem(i) {
