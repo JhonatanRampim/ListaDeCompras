@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 import { ListasService } from 'src/app/services/listas.service';
 
 @Component({
@@ -12,7 +13,7 @@ export class UsarListaPage implements OnInit {
   listaId: number;
   itens: any;
   listsItens: any;
-  constructor(private router: ActivatedRoute, private listaService: ListasService, private loadingController: LoadingController) { }
+  constructor(private router: ActivatedRoute, private listaService: ListasService, private loadingController: LoadingController, private alertController: AlertController) { }
 
   async ngOnInit() {
     await this.presentLoading();
@@ -40,5 +41,41 @@ export class UsarListaPage implements OnInit {
       message: 'Carregando...',
     });
     await loading.present();
+  }
+
+  async presentErrorAlert(message?) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Ops! Houve um erro :(',
+      message: message,
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  async presentSuccessAlert(message?) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Eba! Itens salvos com Sucesso!!',
+      message: 'Agora está tudo salvo conosco!',
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
+
+  onSubmit() {
+    this.itens = this.itens.map(element => {
+      (element.is_checked == true) ? element.is_checked = 1 : element.is_checked = 0;
+      element.id_lista = this.listaId;
+      return element
+    });
+    this.listaService.checkList(this.itens).subscribe(data => {
+      if (!data.success) {
+        this.presentErrorAlert(data.data);
+      }
+      this.presentSuccessAlert();
+    }, error => {
+      this.presentErrorAlert(error.error.data);
+    })
   }
 }

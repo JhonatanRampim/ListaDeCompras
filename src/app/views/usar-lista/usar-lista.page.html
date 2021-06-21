@@ -13,15 +13,16 @@
       <ion-card-title>{{listsItens ? listsItens.nome:""}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
+
       <ion-list *ngFor="let item of itens">
         <ion-item>
-          <ion-label>{{item.nome}}</ion-label>
+          <ion-label style="white-space:normal;">{{item.nome}}</ion-label>
           <ion-label>{{item.quantidade}}</ion-label>
-          <ion-checkbox slot="start"></ion-checkbox>
+          <ion-checkbox slot="start" [(ngModel)]="item.is_checked" value="{{item.id}}"></ion-checkbox>
         </ion-item>
       </ion-list>
       <div class="footer">
-        <ion-button type="submit" color="primary" expand="block" >
+        <ion-button type="submit" color="primary" expand="block" (click)="onSubmit()">
           <ion-spinner *ngIf="isLoading" class="spin" name="crescent" color="light"></ion-spinner>
           Salvar
         </ion-button>
