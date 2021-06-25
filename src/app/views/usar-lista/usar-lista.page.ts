@@ -13,6 +13,7 @@ export class UsarListaPage implements OnInit {
   listaId: number;
   itens: any;
   listsItens: any;
+  isLoading: boolean = false;
   constructor(private router: ActivatedRoute, private listaService: ListasService, private loadingController: LoadingController, private alertController: AlertController) { }
 
   async ngOnInit() {
@@ -64,6 +65,7 @@ export class UsarListaPage implements OnInit {
   }
 
   onSubmit() {
+    this.isLoading = true;
     this.itens = this.itens.map(element => {
       (element.is_checked == true) ? element.is_checked = 1 : element.is_checked = 0;
       element.id_lista = this.listaId;
@@ -71,10 +73,13 @@ export class UsarListaPage implements OnInit {
     });
     this.listaService.checkList(this.itens).subscribe(data => {
       if (!data.success) {
-        this.presentErrorAlert(data.data);
+        this.isLoading = false;
+        return this.presentErrorAlert(data.data);
       }
-      this.presentSuccessAlert();
+      this.isLoading = false;
+      return this.presentSuccessAlert();
     }, error => {
+      this.isLoading = false;
       this.presentErrorAlert(error.error.data);
     })
   }

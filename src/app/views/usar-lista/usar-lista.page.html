@@ -23,7 +23,7 @@
       </ion-list>
       <div class="footer">
         <ion-button type="submit" color="primary" expand="block" (click)="onSubmit()">
-          <ion-spinner class="spin" name="crescent" color="light"></ion-spinner>
+          <ion-spinner *ngIf="isLoading" class="spin" name="crescent" color="light"></ion-spinner>
           Salvar
         </ion-button>
       </div>
