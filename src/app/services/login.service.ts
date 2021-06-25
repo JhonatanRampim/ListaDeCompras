@@ -21,6 +21,9 @@ export class LoginService {
   login(data?) {
     return this.httpClient.post<any>(environment.apiUrl + 'auth/login', { email: data.login, password: data.pass })
       .pipe(map(user => {
+        if (!user.success) {
+          return user;
+        }
         localStorage.setItem('token', user.token);
         this.userSubject.next(jwt_decode(localStorage.getItem('token')));
         return user;

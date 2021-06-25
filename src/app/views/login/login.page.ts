@@ -65,12 +65,16 @@ export class LoginPage implements OnInit {
       .login({ login, pass })
       .subscribe(
         (data) => {
+          if(!data.success) {
+            this.isLoading = false;
+            return this.presentAlert(data.data)
+          }
           this.isLoading = false;
           this.router.navigate(['/home']);
         },
         (error) => {
           this.isLoading = false;
-          this.presentAlert(error.error.data);
+          this.presentAlert(error.data);
         }
       );
 
