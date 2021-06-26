@@ -88,11 +88,11 @@ export class CriarlistaPage implements OnInit {
 
     this.listaService.createList(this.lista).subscribe(data => {
       if (!data.success) {
-        this.presentErrorAlert(data.data);
+        return this.presentErrorAlert(data.data);
       }
-      this.presentSuccessAlert();
+      return this.presentSuccessAlert();
     }, (error) => {
-      this.presentErrorAlert(error.error.data)
+      return this.presentErrorAlert(error.error.data)
     });
   }
 
