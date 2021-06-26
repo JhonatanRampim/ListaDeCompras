@@ -27,9 +27,8 @@
             <input matInput [(ngModel)]="item.valor" placeholder="Coloque a virgula para os centavos!"
               mask="separator.2" decimalMarker="," thousandSeparator="." (change)="showUserTotal()">
           </mat-form-field>
-          <small color="primary" *ngIf="item.isChecked">{{(item.total)? (item.total.toFixed(2) | mask:'0*.00') : '0,00'}}</small>
-          <!-- <ion-label position="floating"></ion-label> -->
-          <!-- <input  [(ngModel)]="item.valor" mask="separator.2" decimalMarker="," thousandSeparator="." /> -->
+          <small color="primary"
+            *ngIf="item.isChecked">{{(item.total)? (item.total |currency:'BRL') : '0,00'}}</small>
         </ion-item>
       </ion-list>
       <div class="footer">
@@ -38,7 +37,11 @@
           Salvar
         </ion-button>
       </div>
-
     </ion-card-content>
   </ion-card>
+  <ion-fab class="fab" vertical="bottom" horizontal="start" slot="fixed">
+    <div class="floating" style="background: #8c0429;">
+      <ion-label class="label-total">{{showUserTotalValue | currency:'BRL'}}</ion-label>
+    </div>
+  </ion-fab>
 </ion-content>
