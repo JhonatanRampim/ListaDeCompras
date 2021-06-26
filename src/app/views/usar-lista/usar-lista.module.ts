@@ -8,13 +8,20 @@ import { UsarListaPageRoutingModule } from './usar-lista-routing.module';
 
 import { UsarListaPage } from './usar-lista.page';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import {MatFormFieldModule} from '@angular/material/form-field'; 
+import {MatInputModule} from '@angular/material/input'; 
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    UsarListaPageRoutingModule
+    NgxMaskModule.forRoot(),
+    MatFormFieldModule,
+    MatInputModule,
+    UsarListaPageRoutingModule,
   ],
   declarations: [UsarListaPage]
 })
