@@ -16,11 +16,11 @@ export class UsarListaPage implements OnInit {
   listsItens: any;
   showUserTotalValue: number = 0.00;
   isLoading: boolean = false;
-  constructor(private router: ActivatedRoute, private listaService: ListasService, private loadingController: LoadingController, private alertController: AlertController) { }
+  constructor(private activatedRoute: ActivatedRoute,private router: Router, private listaService: ListasService, private loadingController: LoadingController, private alertController: AlertController) { }
 
   async ngOnInit() {
     await this.presentLoading();
-    this.router.params.subscribe(routeParams => {
+    this.activatedRoute.params.subscribe(routeParams => {
       this.listaId = routeParams['id'];
       this.getMyListsItems(this.listaId)
       return routeParams
@@ -80,20 +80,21 @@ export class UsarListaPage implements OnInit {
     this.showUserTotalValue += total;
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.isLoading = true;
     const dataToSent = {
       id_lista: this.listaId,
       itens: this.itens,
       total: this.showUserTotalValue.toFixed(2)
     }
-    this.listaService.checkList(dataToSent).subscribe(data => {
+    this.listaService.checkList(dataToSent).subscribe(async data => {
       if (!data.success) {
         this.isLoading = false;
-        return this.presentErrorAlert(data.data);
+        return await this.presentErrorAlert(data.data);
       }
       this.isLoading = false;
-      return this.presentSuccessAlert();
+      await this.presentSuccessAlert();
+      this.router.navigate(['/home']);
     }, error => {
       this.isLoading = false;
       this.presentErrorAlert(error.error.data);
