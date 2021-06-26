@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, LoadingController } from '@ionic/angular';
+import { Item } from 'src/app/models/lista.model';
 import { ListasService } from 'src/app/services/listas.service';
 
 @Component({
@@ -11,8 +12,9 @@ import { ListasService } from 'src/app/services/listas.service';
 })
 export class UsarListaPage implements OnInit {
   listaId: number;
-  itens: any;
+  itens: Array<Item>;
   listsItens: any;
+  showUserTotalValue: number;
   isLoading: boolean = false;
   constructor(private router: ActivatedRoute, private listaService: ListasService, private loadingController: LoadingController, private alertController: AlertController) { }
 
@@ -64,14 +66,39 @@ export class UsarListaPage implements OnInit {
     await alert.present();
   }
 
-  onSubmit() {
-    this.isLoading = true;
+  showUserTotal() {
+    var total: number = 0.00
     this.itens = this.itens.map(element => {
-      (element.is_checked == true) ? element.is_checked = 1 : element.is_checked = 0;
-      element.id_lista = this.listaId;
+      element.total = 0.00
+      if (element.isChecked == false)
+        element.valor = 0.00;
+      element.total = (element.valor) ? element.valor * element.quantidade : 0.00;
+      total += element.total
+      console.log(element.total);
       return element
     });
-    this.listaService.checkList(this.itens).subscribe(data => {
+ 
+  }
+
+  onSubmit() {
+    this.isLoading = true;
+    var total: number = 0.00
+    this.itens = this.itens.map(element => {
+      element.total = 0.00
+      if (element.isChecked == false)
+        element.valor = 0.00;
+      element.total = (element.valor) ? element.valor * element.quantidade : 0.00;
+      total += element.total
+      return element
+    });
+
+    const dataToSent = {
+      id_lista: this.listaId,
+      itens: this.itens,
+      total: total.toFixed(2)
+    }
+    console.log(dataToSent);
+    this.listaService.checkList(dataToSent).subscribe(data => {
       if (!data.success) {
         this.isLoading = false;
         return this.presentErrorAlert(data.data);
