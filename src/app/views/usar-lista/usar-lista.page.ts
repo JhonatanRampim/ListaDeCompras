@@ -29,10 +29,8 @@ export class UsarListaPage implements OnInit {
   }
   getMyListsItems(listaId) {
     this.listaService.getMyListsItems(listaId).subscribe(response => {
-      this.listsItens = response.data[0]
-      response.data.forEach(arrayItems => {
-        this.itens = arrayItems.items;
-      });
+      this.listsItens = response.data;
+      this.itens = this.listsItens.items
       this.loadingController.dismiss('firstLoading');
     });
   }
