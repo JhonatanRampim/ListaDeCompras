@@ -28,4 +28,8 @@ export class ListasService {
     return this.httpClient.post<any>(this.apiUrl + 'lista/checkList', data)
       .pipe(map(createdLista => createdLista));
   }
+  updateList(data?) {
+    return this.httpClient.post<any>(this.apiUrl + 'lista/update', data)
+      .pipe(map(updatedData => updatedData))
+  }
 }
