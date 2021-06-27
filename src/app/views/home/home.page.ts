@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingController, MenuController, ModalController } from '@ionic/angular';
 import { ListasService } from 'src/app/services/listas.service';
+import { LoginService } from 'src/app/services/login.service';
+import { StatsService } from 'src/app/services/stats.service';
 import { ListaPage } from '../modals/lista/lista.page';
 
 @Component({
@@ -11,21 +13,39 @@ import { ListaPage } from '../modals/lista/lista.page';
 })
 export class FolderPage implements OnInit {
   public folder: string;
-  public myLists: Array<any>
+  public myLists: Array<any>;
+  user: any;
+  userTotalItens: any;
+  userTotalSpentByList: any;
+  userTotalSpentItem: any;
   constructor(private activatedRoute: ActivatedRoute,
     private menu: MenuController,
     public listasService: ListasService,
     public modalController: ModalController,
-    public loadingController: LoadingController) { }
+    public loadingController: LoadingController,
+    public loginService: LoginService,
+    public stats: StatsService) { }
 
-   ngOnInit() {
+  ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id');
-    this.getLists();
+    this.loginService.user.subscribe(user => {
+      if (user) {
+        this.getLists(user.id);
+        this.getUserStats(user.id);
+        return this.user = user
+      }
+    });
+  }
+  getUserStats(userId?) {
+    this.stats.getUserTotalItens(userId).subscribe(stats =>  this.userTotalItens = stats.data);
+    this.stats.getUserTotalSpentByList(userId).subscribe(stats => this.userTotalSpentByList = stats.data);
+    this.stats.getUserTotalSpentItem(userId).subscribe(stats => this.userTotalSpentItem = stats.data);
+    console.log( this.userTotalItens, this.userTotalSpentByList,  this.userTotalSpentItem);
   }
 
-  async getLists() {
+  async getLists(id) {
     await this.presentLoading()
-    return this.listasService.getMyLists().subscribe(response => {
+    return this.listasService.getMyLists(id).subscribe(response => {
       this.myLists = response.data;
       this.loadingController.dismiss('firstLoading');
     });
@@ -33,7 +53,7 @@ export class FolderPage implements OnInit {
 
   async presentLoading() {
     const loading = await this.loadingController.create({
-      id:'firstLoading',
+      id: 'firstLoading',
       cssClass: 'my-custom-class',
       message: 'Carregando...',
     });
