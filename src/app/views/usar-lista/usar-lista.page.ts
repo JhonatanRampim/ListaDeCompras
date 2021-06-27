@@ -12,7 +12,7 @@ import { ListasService } from 'src/app/services/listas.service';
 })
 export class UsarListaPage implements OnInit {
   listaId: number;
-  itens: Array<Item>;
+  itens: Array<any>;
   listsItens: any;
   showUserTotalValue: number = 0.00;
   isLoading: boolean = false;
