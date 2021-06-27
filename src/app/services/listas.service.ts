@@ -10,8 +10,8 @@ export class ListasService {
   public apiUrl = environment.apiUrl;
   constructor(private httpClient: HttpClient) { }
 
-  getMyLists() {
-    return this.httpClient.post<any>(this.apiUrl + 'lista/getMyList', { id: "1" })
+  getMyLists(id?) {
+    return this.httpClient.post<any>(this.apiUrl + 'lista/getMyList', { id: id })
       .pipe(map(lista => lista));
   }
 
