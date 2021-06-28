@@ -32,4 +32,8 @@ export class ListasService {
     return this.httpClient.post<any>(this.apiUrl + 'lista/update', data)
       .pipe(map(updatedData => updatedData))
   }
+  deleteList(data?) {
+    return this.httpClient.post<any>(this.apiUrl + 'lista/delete', {id_lista:data})
+      .pipe(map(deletedData => deletedData))
+  }
 }

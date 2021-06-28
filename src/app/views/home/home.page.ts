@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController, MenuController, ModalController } from '@ionic/angular';
+import { AlertController, LoadingController, MenuController, ModalController } from '@ionic/angular';
 import { ListasService } from 'src/app/services/listas.service';
 import { LoginService } from 'src/app/services/login.service';
 import { StatsService } from 'src/app/services/stats.service';
@@ -24,7 +24,8 @@ export class FolderPage implements OnInit {
     public modalController: ModalController,
     public loadingController: LoadingController,
     public loginService: LoginService,
-    public stats: StatsService) { }
+    public stats: StatsService,
+    public alertController: AlertController) { }
 
   ngOnInit() {
     // this.folder = this.activatedRoute.snapshot.paramMap.get('id');
@@ -39,7 +40,7 @@ export class FolderPage implements OnInit {
     });
   }
   getUserStats(userId?) {
-    this.stats.getUserTotalItens(userId).subscribe(stats =>  this.userTotalItens = stats.data);
+    this.stats.getUserTotalItens(userId).subscribe(stats => this.userTotalItens = stats.data);
     this.stats.getUserTotalSpentByList(userId).subscribe(stats => this.userTotalSpentByList = stats.data);
     this.stats.getUserTotalSpentItem(userId).subscribe(stats => this.userTotalSpentItem = stats.data);
   }
@@ -75,6 +76,35 @@ export class FolderPage implements OnInit {
 
   openList(id?, nome?) {
     this.modalProtetiva(id, nome);
+  }
+
+  async presentConfirmAlert(lists_id?) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Opa! Tem certeza que deseja excluir a lista?',
+      buttons: [{
+        text: 'Sim',
+        handler: () => {
+          this.listasService.deleteList(lists_id).subscribe(data => {
+            window.location.reload;
+            return data;
+          }, error => {
+            return error;
+          });
+        }
+      }, {
+        text: 'Cancelar',
+        handler: () => {
+          alert.dismiss();
+        }
+      }]
+
+    });
+    await alert.present();
+  }
+
+  deleteList(list_id?) {
+    this.presentConfirmAlert(list_id);
   }
 
 }

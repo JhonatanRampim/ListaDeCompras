@@ -65,6 +65,9 @@
               <ion-button color="warning" size="small" title="Editar lista" (click)="openList(lists.id, lists.nome)">
                 <ion-icon slot="icon-only" name="pencil"></ion-icon>
               </ion-button>
+              <ion-button color="danger" size="small" title="Excluir lista" (click)="deleteList(lists.id)">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </ion-button>
             </div>
           </ion-card-content>
         </ion-card>
