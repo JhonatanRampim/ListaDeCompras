@@ -27,7 +27,9 @@ export class FolderPage implements OnInit {
     public stats: StatsService) { }
 
   ngOnInit() {
-    this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+    // this.folder = this.activatedRoute.snapshot.paramMap.get('id');
+  }
+  ionViewWillEnter() {
     this.loginService.user.subscribe(user => {
       if (user) {
         this.getLists(user.id);
@@ -40,7 +42,6 @@ export class FolderPage implements OnInit {
     this.stats.getUserTotalItens(userId).subscribe(stats =>  this.userTotalItens = stats.data);
     this.stats.getUserTotalSpentByList(userId).subscribe(stats => this.userTotalSpentByList = stats.data);
     this.stats.getUserTotalSpentItem(userId).subscribe(stats => this.userTotalSpentItem = stats.data);
-    console.log( this.userTotalItens, this.userTotalSpentByList,  this.userTotalSpentItem);
   }
 
   async getLists(id) {

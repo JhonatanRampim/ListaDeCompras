@@ -76,7 +76,13 @@ export class CriarlistaPage implements OnInit {
       cssClass: 'my-custom-class',
       header: 'Eba! Lista cadastrada com sucesso!!',
       message: 'Agora é só começar a usar!',
-      buttons: ['OK']
+      buttons: [{
+        text: 'Ok',
+        handler: () => {
+          this.router.navigate(['/home']);
+        }
+      }]
+      
     });
     await alert.present();
   }

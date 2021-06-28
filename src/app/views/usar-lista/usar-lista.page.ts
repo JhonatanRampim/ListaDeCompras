@@ -59,7 +59,12 @@ export class UsarListaPage implements OnInit {
       cssClass: 'my-custom-class',
       header: 'Eba! Itens salvos com Sucesso!!',
       message: 'Agora está tudo salvo conosco!',
-      buttons: ['OK']
+      buttons:  [{
+        text: 'Ok',
+        handler: () => {
+          this.router.navigateByUrl('/home');
+        }
+      }]
     });
     await alert.present();
   }
@@ -92,7 +97,6 @@ export class UsarListaPage implements OnInit {
       }
       this.isLoading = false;
       await this.presentSuccessAlert();
-      this.router.navigate(['/home']);
     }, error => {
       this.isLoading = false;
       this.presentErrorAlert(error.error.data);
