@@ -86,7 +86,7 @@ export class FolderPage implements OnInit {
         text: 'Sim',
         handler: () => {
           this.listasService.deleteList(lists_id).subscribe(data => {
-            window.location.reload;
+            window.location.reload();
             return data;
           }, error => {
             return error;
